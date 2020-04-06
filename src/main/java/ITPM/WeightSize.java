@@ -5,7 +5,8 @@
  */
 package ITPM;
 
-//import static ITPM.Dashboard.Dash_UploadSpace;
+
+import static ITPM.Dashboard.Dash_UploadSpace;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -185,78 +186,78 @@ public class WeightSize extends javax.swing.JFrame {
 
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
 
-//           DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
-//           Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
-//           
-//           BufferedReader br = new BufferedReader(inputString);
-//           
-//           String text;
-//            
-//           int countKey = 0;
-//           int countOps = 0;
-//           int countNum = 0;
-//           int countString = 0;
-//           
-//        try {
-//            while((text = br.readLine()) != null){
-//                String[] newString = text.split("\\s+");
-//                for(String ss : newString){
-//                    if(ss.equals("abstract")|| ss.equals("abstract") || ss.equals("break") || ss.equals("catch") || ss.equals("class") || ss.equals("continue") || ss.equals("default") || ss.equals("do") || ss.equals("else") || ss.equals("enum") || ss.equals("extends") || ss.equals("final")
-//                            || ss.equals("finally")|| ss.equals("implements") || ss.equals("import") || ss.equals("instanceof") || ss.equals("interface")
-//                            || ss.equals("native") || ss.equals("new") || ss.equals("null") || ss.equals("package") || ss.equals("private") || ss.equals("protected") || ss.equals("public")
-//                            || ss.equals("return") || ss.equals("static") || ss.equals("strictfp") || ss.equals("super")|| ss.equals("synchronized") || ss.equals("this") || ss.equals("throw")
-//                            || ss.equals("throws") || ss.equals("transient") || ss.equals("try") || ss.equals("void") || ss.equals("volatile")){
-//                        
-//                        countKey++;
-//                    }
-//                    
-//                    if(ss.contains("+") || ss.contains("-") || ss.contains("*") || ss.contains("/") || ss.contains("%") || ss.contains("++") || ss.contains("--") || ss.contains("==") || ss.contains("!=") || ss.contains(">") || ss.contains("<") || ss.contains(">=") || ss.contains("<=") || 
-//                            ss.contains("&&") || ss.contains("||") || ss.contains("!") || ss.contains("|") || ss.contains("^") || ss.contains("~") || ss.contains("<<") || ss.contains(">>") || ss.contains(">>>") || ss.contains("<<<") || ss.contains(",") || ss.contains("->") || ss.contains(".") || ss.contains("::") || 
-//                            ss.contains("+=") || ss.contains("-=") || ss.contains("*=") || ss.contains("/=") || ss.contains("=") || ss.contains(">>>=") || ss.contains("|=") || ss.contains("&=") || ss.contains("%=") ||  ss.contains("<<=") || ss.contains(">>=") || ss.contains("^=")){
-//                        
-//                        if(ss.contains(".") && ss.contains("System.out")){
-//                            
-//                            countOps = countOps + 2;
-//                        }else{
-//                           
-//                            countOps++;
-//                        }
-//                        
-//                    }
-//                    
-//                    if(ss.equals("byte") || ss.equals("short") || ss.equals("int") || ss.equals("long") || ss.equals("float") || ss.equals("double")){
-//                        
-//                        countNum++;
-//                    }
-//                    
-//                    if(ss.contains("\"")){
-//                        
-//                        countString++;
-//                        
-//                    }
-//                         
-//            }
-//                if(countKey != 0 || countOps != 0 || countNum != 0 || countString != 0){
-//                        
-//                        countString = countString/2;
-//                        
-//                        System.out.println(text+"      "+countKey+"      "+countOps +"      "+countNum +"        " +countString);
-//                        countKey = 0;
-//                        countOps = 0;
-//                        countNum = 0;
-//                        countString = 0;
-//                    } 
-//             
-//              
-//            }
-//            
-//            
-//           // int keywords = countKey * Integer.parseInt(model.getValueAt(0,1).toString());
-//           // jLabel1.setText(Integer.toString(keywords));
-//            
-//        } catch (IOException ex) {
-//            Logger.getLogger(WeightSize.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+           DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
+           Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
+           
+           BufferedReader br = new BufferedReader(inputString);
+           
+           String text;
+            
+           int countKey = 0;
+           int countOps = 0;
+           int countNum = 0;
+           int countString = 0;
+           
+        try {
+            while((text = br.readLine()) != null){
+                String[] newString = text.split("\\s+");
+                for(String ss : newString){
+                    if(ss.equals("abstract")|| ss.equals("abstract") || ss.equals("break") || ss.equals("catch") || ss.equals("class") || ss.equals("continue") || ss.equals("default") || ss.equals("do") || ss.equals("else") || ss.equals("enum") || ss.equals("extends") || ss.equals("final")
+                            || ss.equals("finally")|| ss.equals("implements") || ss.equals("import") || ss.equals("instanceof") || ss.equals("interface")
+                            || ss.equals("native") || ss.equals("new") || ss.equals("null") || ss.equals("package") || ss.equals("private") || ss.equals("protected") || ss.equals("public")
+                            || ss.equals("return") || ss.equals("static") || ss.equals("strictfp") || ss.equals("super")|| ss.equals("synchronized") || ss.equals("this") || ss.equals("throw")
+                            || ss.equals("throws") || ss.equals("transient") || ss.equals("try") || ss.equals("void") || ss.equals("volatile")){
+                        
+                        countKey++;
+                    }
+                    
+                    if(ss.contains("+") || ss.contains("-") || ss.contains("*") || ss.contains("/") || ss.contains("%") || ss.contains("++") || ss.contains("--") || ss.contains("==") || ss.contains("!=") || ss.contains(">") || ss.contains("<") || ss.contains(">=") || ss.contains("<=") || 
+                            ss.contains("&&") || ss.contains("||") || ss.contains("!") || ss.contains("|") || ss.contains("^") || ss.contains("~") || ss.contains("<<") || ss.contains(">>") || ss.contains(">>>") || ss.contains("<<<") || ss.contains(",") || ss.contains("->") || ss.contains(".") || ss.contains("::") || 
+                            ss.contains("+=") || ss.contains("-=") || ss.contains("*=") || ss.contains("/=") || ss.contains("=") || ss.contains(">>>=") || ss.contains("|=") || ss.contains("&=") || ss.contains("%=") ||  ss.contains("<<=") || ss.contains(">>=") || ss.contains("^=")){
+                        
+                        if(ss.contains(".") && ss.contains("System.out")){
+                            
+                            countOps = countOps + 2;
+                        }else{
+                           
+                            countOps++;
+                        }
+                        
+                    }
+                    
+                    if(ss.equals("byte") || ss.equals("short") || ss.equals("int") || ss.equals("long") || ss.equals("float") || ss.equals("double")){
+                        
+                        countNum++;
+                    }
+                    
+                    if(ss.contains("\"")){
+                        
+                        countString++;
+                        
+                    }
+                         
+            }
+                if(countKey != 0 || countOps != 0 || countNum != 0 || countString != 0){
+                        
+                        countString = countString/2;
+                        
+                        System.out.println(text+"      "+countKey+"      "+countOps +"      "+countNum +"        " +countString);
+                        countKey = 0;
+                        countOps = 0;
+                        countNum = 0;
+                        countString = 0;
+                    } 
+             
+              
+            }
+            
+            
+           // int keywords = countKey * Integer.parseInt(model.getValueAt(0,1).toString());
+           // jLabel1.setText(Integer.toString(keywords));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(WeightSize.class.getName()).log(Level.SEVERE, null, ex);
+        }
  
     }//GEN-LAST:event_jButtonStartActionPerformed
 
