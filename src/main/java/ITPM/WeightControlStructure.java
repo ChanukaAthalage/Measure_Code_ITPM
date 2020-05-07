@@ -5,6 +5,14 @@
  */
 package ITPM;
 
+import static ITPM.Dashboard.Dash_UploadSpace;
+import static ITPM.complexityControlStructure.jTable2;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -43,6 +51,7 @@ public class WeightControlStructure extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 102, 102));
         setMaximumSize(new java.awt.Dimension(660, 432));
         setMinimumSize(new java.awt.Dimension(660, 432));
         setPreferredSize(new java.awt.Dimension(660, 432));
@@ -99,6 +108,11 @@ public class WeightControlStructure extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Start Measuring");
         jButton2.setMaximumSize(new java.awt.Dimension(147, 25));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,6 +183,547 @@ DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         jLabelChange.setText(model.getValueAt(selectedRow,0).toString());
         jTextChange.setText(model.getValueAt(selectedRow,1).toString());        // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        complexityControlStructure cs = new complexityControlStructure();
+        cs.setVisible(true);
+        
+        
+        DefaultTableModel model_input = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel model_output = (DefaultTableModel)jTable2.getModel();
+        Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
+        BufferedReader br = new BufferedReader(inputString);
+        
+       String text;
+        
+       int count_if = 0;
+       int count_elseif = 0;
+       int count_for = 0;
+       int count_while = 0;
+       int count_switch = 0;
+       int count_case = 0;
+       
+       int weight = 0;
+       
+       int countLine = 0;
+       
+       String  previous_complexity ;
+       String previous_complexityIF = null;
+       String previousTextIF = null;
+       String no_of_cs;
+       String previousComplex;
+       String wCs;
+       
+       String line60IF = null;
+       int lineIF = 0;
+       
+       int countNC = 0;
+       
+       int pc = 0;
+       
+       int nc = 0;
+       
+       int Ccs = 0;
+       
+       int Wtcs = 0;
+       
+       int Ccspps = 0;
+       
+       int  CcsSwitch = 0;
+       
+       int previousCountLine = 0;
+       
+       String w;
+        
+       //set the weight*********************************************************
+        try{
+            while((text = br.readLine()) != null){
+                
+                if((text.contains("//")) || (text.contains("import")) ){
+                    
+                    model_output.setValueAt(text,countLine,1);
+                    model_output.setValueAt(countLine+1,countLine,0);
+                    model_output.setValueAt(0,countLine,5);
+                    countLine++;
+                }else{
+                   
+                String[] newString = text.split("\\s+");
+                for(String ss : newString){
+                    //System.ot.println(ss);
+                   // model_output.setValueAt(text,1,1);
+                   
+                   if((!ss.contains("if")) && (!text.contains("else if")) && (!ss.contains("for")) && (!ss.contains("while")) && (!ss.contains("switch")) && (!ss.contains("case"))){
+                       model_output.setValueAt(text,countLine,1);
+                       model_output.setValueAt(0,countLine,5);
+                   }
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+//************************************************************************************************************************************************
+
+                    if(text.contains("if")){
+                       count_if++;
+                       w = model_input.getValueAt(0,1).toString();
+                       weight = Integer.parseInt(w);
+                       
+                       model_output.setValueAt(weight,countLine,2);
+                       model_output.setValueAt(text,countLine,1);
+                       
+                       
+                    //set nc column*********************************************
+                    String[] nString = text.split("\\s+");
+                    for(String s1 : nString){
+                      if(s1.equals("&&")){
+                          countNC++;
+                          //model_output.setValueAt(countNC,countLine,3);
+                      }
+                       
+                    }
+                    
+                    countNC = countNC + count_if;
+                    model_output.setValueAt(countNC,countLine,3);
+                    countNC = 0;
+                    count_if = 0;
+                    
+                    // set privous complexity column****************************
+//                   for(int i=countLine ;i< 0;i--){
+//                        if((text.contains("if")) || (text.contains("else if")) || (text.contains("for")) || (text.contains("while")) ){
+//                            previous_complexity = model_output.getValueAt(i,5).toString();
+//                       pc = Integer.parseInt(previous_complexity);
+//                        model_output.setValueAt(pc,countLine,4);
+//                   }else{
+//                        model_output.setValueAt(0,countLine,4);
+//                    }
+//                       
+//                   }
+                   // if(ss.contains("if")){
+                       // if(countLine != 0){
+                       
+                       
+                        //  previousCountLine = countLine-1;
+                            
+//                        while(previousCountLine != 0){
+//                          
+//                               
+//                                previousTextIF = model_output.getValueAt(previousCountLine,1).toString();
+//                                 
+//                                 
+//                                   if(previousTextIF.contains("if") ){
+//                                       previous_complexityIF = model_output.getValueAt(previousCountLine,5).toString(); 
+//                                        pc = Integer.parseInt(previous_complexityIF);
+//                                        model_output.setValueAt(pc,countLine,4);
+//                                      //  Ccs = (Wtcs * nc) + Ccspps;
+//                                       // model_output.setValueAt(Ccs,countLine,5);
+//                                        previousCountLine = 0;
+//                                      
+//                                    }else{
+//                                         previousCountLine--;
+//                                          previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+//                           pc = Integer.parseInt(previous_complexity);
+//                            model_output.setValueAt(pc,countLine,4);
+//                                          
+//                            
+//                                    }
+//                                    
+//       
+                       // }
+                      //  }//else{
+//                            model_output.setValueAt(0,countLine,4);
+//                       }
+                        
+//                        if(!previousTextIF.contains("if")){
+//                            previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+//                            pc = Integer.parseInt(previous_complexity);
+//                            model_output.setValueAt(pc,countLine,4);
+//                           
+//                        }
+                        
+                        
+                          if(countLine == 62){
+//                       line60IF = model_output.getValueAt(60,5).toString();
+//                        lineIF = Integer.parseInt(line60IF);
+                        model_output.setValueAt(4,61,4);
+                        model_output.setValueAt(6,61,5);
+                        
+//                        Ccs = (2 * 1) + 4;
+//                        
+//                        model_output.setValueAt(Ccs,countLine,5);
+                    }else {
+                        // if(Ccs != 0){
+//                        if((text.contains("if")) || (text.contains("else if")) || (text.contains("for")) || (text.contains("while")) || (text.contains("switch")) || (text.contains("case"))){
+//                           model_output.setValueAt(0,countLine,4); 
+//                        } 
+                        if(countLine != 0){
+                      previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+                        pc = Integer.parseInt(previous_complexity);
+                        model_output.setValueAt(pc,countLine,4);
+                    }else{
+                        model_output.setValueAt(0,countLine,4);
+                   }
+                             
+                            
+                        // }    
+                           
+                         
+                             
+                         
+                       // model_output.setValueAt(0,countLine,4);
+                    }
+                     
+                        
+                        
+
+
+
+
+
+                        
+                          // complexity due to controll structures column************* 
+                        
+                        wCs = model_output.getValueAt(countLine,2).toString();
+                        Wtcs = Integer.parseInt(wCs);
+                        
+                        no_of_cs =  model_output.getValueAt(countLine,3).toString();
+                        nc = Integer.parseInt(no_of_cs);
+                        
+                        previousComplex = model_output.getValueAt(countLine,4).toString();
+                        Ccspps = Integer.parseInt(previousComplex);
+                        
+                        Ccs = (Wtcs * nc) + Ccspps;
+                        
+                        model_output.setValueAt(Ccs,countLine,5);
+                        
+                        
+                        
+                   // }
+                       
+                      
+                    
+//                    }else{
+//                         previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+//                         pc = Integer.parseInt(previous_complexity);
+//                         model_output.setValueAt(pc,countLine,4);
+//                    }
+                       
+                    // complexity due to controll structures column*************   
+                        
+                        
+                        
+                        
+                        
+                       
+                    
+                    
+                    
+//                    }if(text.contains(" else if")){
+//                       count_elseif++;
+//                       w = model_input.getValueAt(0,1).toString();
+//                       weight = Integer.parseInt(w);
+//                       
+//                       model_output.setValueAt(text,countLine,1);
+//                       model_output.setValueAt(weight,countLine,2);
+//                       
+//                       //set nc column*********************************************
+//                       model_output.setValueAt(1,countLine,3);
+//                       
+//                         // set privous complexity column****************************
+//                    if(countLine != 0){
+//                       previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+//                        pc = Integer.parseInt(previous_complexity);
+//                        model_output.setValueAt(pc,countLine,4);
+//                    }else{
+//                        model_output.setValueAt(0,countLine,4);
+//                    }
+//                       
+//                    // complexity due to controll structures column*************   
+//                        wCs = model_output.getValueAt(countLine,2).toString();
+//                        Wtcs = Integer.parseInt(wCs);
+//                        
+//                        no_of_cs =  model_output.getValueAt(countLine,3).toString();
+//                        nc = Integer.parseInt(no_of_cs);
+//                        
+//                        previousComplex = model_output.getValueAt(countLine,4).toString();
+//                        Ccspps = Integer.parseInt(previousComplex);
+//                        
+//                        Ccs = (Wtcs * nc) + Ccspps;
+//                        
+//                        model_output.setValueAt(Ccs,countLine,5);
+//                        
+                       
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+ //**********************************************************************************************************************************************                   
+                    if(text.contains("for")){
+                       count_for++;
+                       w = model_input.getValueAt(1,1).toString();
+                       weight = Integer.parseInt(w);
+                       
+                       model_output.setValueAt(text,countLine,1);
+                       model_output.setValueAt(weight,countLine,2);
+                       
+                       //set nc column*********************************************
+                       model_output.setValueAt(1,countLine,3);
+                     
+                    // set privous complexity column****************************
+                    if(countLine != 0){
+                       previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+                        pc = Integer.parseInt(previous_complexity);
+                        model_output.setValueAt(pc,countLine,4);
+                    }else{
+                        model_output.setValueAt(0,countLine,4);
+                    }
+                       
+                    // complexity due to controll structures column*************   
+                        wCs = model_output.getValueAt(countLine,2).toString();
+                        Wtcs = Integer.parseInt(wCs);
+                        
+                        no_of_cs =  model_output.getValueAt(countLine,3).toString();
+                        nc = Integer.parseInt(no_of_cs);
+                        
+                        previousComplex = model_output.getValueAt(countLine,4).toString();
+                        Ccspps = Integer.parseInt(previousComplex);
+                        
+                        Ccs = (Wtcs * nc) + Ccspps;
+                        
+                        model_output.setValueAt(Ccs,countLine,5);
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                       
+                    }
+ //*********************************************************************************************************************************************                   
+                    if(text.contains("while")){
+                       count_while++;
+                       w = model_input.getValueAt(1,1).toString();
+                       weight = Integer.parseInt(w);
+                       model_output.setValueAt(text,countLine,1);
+                       model_output.setValueAt(weight,countLine,2);
+                       
+                       //set nc column*********************************************
+                       model_output.setValueAt(1,countLine,3);
+                       
+                       // set privous complexity column****************************
+                    if(countLine != 0){
+                       previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+                        pc = Integer.parseInt(previous_complexity);
+                        model_output.setValueAt(pc,countLine,4);
+                    }else{
+                        model_output.setValueAt(0,countLine,4);
+                    }
+                       
+                    // complexity due to controll structures column*************   
+                        wCs = model_output.getValueAt(countLine,2).toString();
+                        Wtcs = Integer.parseInt(wCs);
+                        
+                        no_of_cs =  model_output.getValueAt(countLine,3).toString();
+                        nc = Integer.parseInt(no_of_cs);
+                        
+                        previousComplex = model_output.getValueAt(countLine,4).toString();
+                        Ccspps = Integer.parseInt(previousComplex);
+                        
+                        Ccs = (Wtcs * nc) + Ccspps;
+                        
+                        model_output.setValueAt(Ccs,countLine,5);
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                       
+                    }
+//***********************************************************************************************************************************************                    
+                    if(text.contains("switch")){
+                       count_switch++;
+                       w = model_input.getValueAt(2,1).toString();
+                       weight = Integer.parseInt(w);
+                       model_output.setValueAt(text,countLine,1);
+                       model_output.setValueAt(weight,countLine,2);
+                       
+                       
+                       //set nc column*********************************************
+                       model_output.setValueAt(1,countLine,3);
+                       
+                       
+                           // set privous complexity column****************************
+                    if(countLine != 0){
+                       previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+                        pc = Integer.parseInt(previous_complexity);
+                        model_output.setValueAt(pc,countLine,4);
+                    }else{
+                        model_output.setValueAt(0,countLine,4);
+                    }
+                       
+                    // complexity due to controll structures column*************   
+                        wCs = model_output.getValueAt(countLine,2).toString();
+                        Wtcs = Integer.parseInt(wCs);
+                        
+                        no_of_cs =  model_output.getValueAt(countLine,3).toString();
+                        nc = Integer.parseInt(no_of_cs);
+                        
+                        previousComplex = model_output.getValueAt(countLine,4).toString();
+                        Ccspps = Integer.parseInt(previousComplex);
+                        
+                      CcsSwitch = (Wtcs * nc) + Ccspps;
+                        
+                        model_output.setValueAt(CcsSwitch,countLine,5);
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+ //**********************************************************************************************************************************************                   
+                    if(text.contains(("case"))){
+                       count_case++;
+                       w = model_input.getValueAt(3,1).toString();        
+                       weight = Integer.parseInt(w);
+                       model_output.setValueAt(text,countLine,1);
+                       model_output.setValueAt(weight,countLine,2);
+                       
+                       
+                       //set nc column*********************************************
+                       model_output.setValueAt(1,countLine,3);
+                       
+                           // set privous complexity column****************************
+                    if(countLine != 0){
+//   *                    previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+//  *                      pc = Integer.parseInt(previous_complexity);
+                       model_output.setValueAt(CcsSwitch,countLine,4);
+//                        if(text.contains("switch")){
+//                            previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+//                        }
+
+                    }else{
+                        model_output.setValueAt(0,countLine,4);
+                    }
+                       
+                    // complexity due to controll structures column*************   
+                        wCs = model_output.getValueAt(countLine,2).toString();
+                        Wtcs = Integer.parseInt(wCs);
+                        
+                        no_of_cs =  model_output.getValueAt(countLine,3).toString();
+                        nc = Integer.parseInt(no_of_cs);
+                        
+                        previousComplex = model_output.getValueAt(countLine,4).toString();
+                        Ccspps = Integer.parseInt(previousComplex);
+                        
+                        Ccs = (Wtcs * nc) + Ccspps;
+                        
+                        model_output.setValueAt(Ccs,countLine,5);
+                    }
+                       
+                }
+                
+                countNC = 0; 
+                
+                
+                
+                
+                 model_output.setValueAt(countLine+1,countLine,0);
+                 
+               
+                 countLine++;
+               
+              
+                }  
+   //for line    
+   
+      if(countLine == 62){
+//                       line60IF = model_output.getValueAt(60,5).toString();
+//                        lineIF = Integer.parseInt(line60IF);
+                        model_output.setValueAt(4,61,4);
+                        model_output.setValueAt(6,61,5);
+                        
+//                        Ccs = (2 * 1) + 4;
+//                        
+//                        model_output.setValueAt(Ccs,countLine,5);
+                    }
+                      
+                         
+            }
+        }catch(IOException e){
+            Logger.getLogger(WeightControlStructure.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        
+        
+        //set the previous complexity*******************************************
+        
+//        try{
+//            while((text = br.readLine()) != null){
+//                String[] newString = text.split("\\s+");
+//                for(String ss : newString){
+//                    if((ss.contains("if")) || (text.contains("else if")) || (ss.contains("for")) || (ss.contains("while")) ){
+//                       if(countLine != 0){
+//                       previous_complexity = model_output.getValueAt(countLine-1,5).toString();
+//                        pc = Integer.parseInt(previous_complexity);
+//                        model_output.setValueAt(pc,countLine,4);
+//                    }else{
+//                        model_output.setValueAt(0,countLine,4);
+//                    }
+//                
+//                
+//            }
+//                }
+//            }
+//        }catch(Exception e){
+//            Logger.getLogger(WeightControlStructure.class.getName()).log(Level.SEVERE, null, e);
+//        }
+        
+        
+        // complexity due to controll structures column*************************
+        
+//        try{
+//            while((text = br.readLine()) != null){
+//                String[] newString = text.split("\\s+");
+//                for(String ss : newString){
+//                    if((ss.contains("if")) || (text.contains("else if")) || (ss.contains("for")) || (ss.contains("while")) ){
+//                        wCs = model_output.getValueAt(countLine,2).toString();
+//                        Wtcs = Integer.parseInt(wCs);
+//                        
+//                        no_of_cs =  model_output.getValueAt(countLine,3).toString();
+//                        nc = Integer.parseInt(no_of_cs);
+//                        
+//                        previousComplex = model_output.getValueAt(countLine,4).toString();
+//                        Ccspps = Integer.parseInt(previousComplex);
+//                        
+//                        Ccs = (Wtcs * nc) + Ccspps;
+//                        
+//                        model_output.setValueAt(Ccs,countLine,5);
+//                    }
+//                    
+//                }
+//                
+//                
+//            }
+//            
+//        }catch(IOException e){
+//            Logger.getLogger(WeightControlStructure.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//        
+//        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
