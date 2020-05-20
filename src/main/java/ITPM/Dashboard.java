@@ -8,12 +8,31 @@
  */
 package ITPM;
 
+import static ITPM.ComplexitySize.jTable1;
+import ITPM.UI.WeightCoupling;
+import static ITPM.complexityFactor.FactorTable;
+import static ITPM.complexityFactor.lccs;
+import static ITPM.complexityFactor.lci;
+import static ITPM.complexityFactor.lcm;
+import static ITPM.complexityFactor.lcs;
+import static ITPM.complexityFactor.lcv;
+import static ITPM.complexityFactor.ltcps;
+import static ITPM.complexityInheritance.jTable12;
+
+import static ITPM.complexityVariables.jTable1;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,8 +64,9 @@ public class Dashboard extends javax.swing.JFrame {
         Dash_VariablesBtn = new javax.swing.JButton();
         Dash_InheritanceBtn = new javax.swing.JButton();
         Dash_CouplingBtn = new javax.swing.JButton();
-        Dash_controlStructuresBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        Dash_controlStructuresBtn1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         Dash_UploadSpace = new javax.swing.JTextArea();
@@ -74,6 +94,9 @@ public class Dashboard extends javax.swing.JFrame {
 
         Dash_MethodsBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Dash_MethodsBtn.setText("Methods");
+        Dash_MethodsBtn.setMaximumSize(new java.awt.Dimension(59, 23));
+        Dash_MethodsBtn.setMinimumSize(new java.awt.Dimension(59, 23));
+        Dash_MethodsBtn.setPreferredSize(new java.awt.Dimension(59, 23));
         Dash_MethodsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Dash_MethodsBtnActionPerformed(evt);
@@ -82,6 +105,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         Dash_VariablesBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Dash_VariablesBtn.setText("Variables");
+        Dash_VariablesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Dash_VariablesBtnActionPerformed(evt);
+            }
+        });
 
         Dash_InheritanceBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Dash_InheritanceBtn.setText("Inheritance");
@@ -99,63 +127,74 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        Dash_controlStructuresBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        Dash_controlStructuresBtn.setText("Control Structures");
-        Dash_controlStructuresBtn.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Measuring Options");
+
+        Dash_controlStructuresBtn1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Dash_controlStructuresBtn1.setText("Control Structures");
+        Dash_controlStructuresBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Dash_controlStructuresBtnActionPerformed(evt);
+                Dash_controlStructuresBtn1ActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Measuring Options");
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setText("All");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jDesktopPane1.setLayer(Dash_SizeBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Dash_MethodsBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Dash_VariablesBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Dash_InheritanceBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(Dash_CouplingBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(Dash_controlStructuresBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(Dash_controlStructuresBtn1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Dash_SizeBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Dash_MethodsBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Dash_VariablesBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Dash_InheritanceBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Dash_CouplingBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Dash_controlStructuresBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(Dash_SizeBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Dash_MethodsBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Dash_VariablesBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Dash_InheritanceBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Dash_CouplingBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Dash_controlStructuresBtn1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Dash_SizeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Dash_MethodsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(Dash_VariablesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(Dash_InheritanceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(27, 27, 27)
+                .addComponent(Dash_MethodsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(Dash_VariablesBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(Dash_InheritanceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addComponent(Dash_CouplingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(Dash_controlStructuresBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(Dash_controlStructuresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
         );
 
         jDesktopPane2.setBackground(new java.awt.Color(153, 204, 255));
@@ -234,7 +273,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Dash_SubmitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Dash_UploadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 34, Short.MAX_VALUE))
+                .addGap(0, 53, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
@@ -334,12 +373,14 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void Dash_MethodsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dash_MethodsBtnActionPerformed
         // TODO add your handling code here:
+        WeightMethod wm = new WeightMethod();
+        wm.setVisible(true);
         
     }//GEN-LAST:event_Dash_MethodsBtnActionPerformed
 
     private void Dash_CouplingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dash_CouplingBtnActionPerformed
         // TODO add your handling code here:
-        WeightCoupling wc = new WeightCoupling();
+       WeightCoupling wc = new WeightCoupling();
         wc.setVisible(true);
     }//GEN-LAST:event_Dash_CouplingBtnActionPerformed
 
@@ -349,46 +390,1539 @@ public class Dashboard extends javax.swing.JFrame {
         wi.setVisible(true);
     }//GEN-LAST:event_Dash_InheritanceBtnActionPerformed
 
-    private void Dash_controlStructuresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dash_controlStructuresBtnActionPerformed
+    private void Dash_VariablesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dash_VariablesBtnActionPerformed
         // TODO add your handling code here:
-         WeightControlStructure cs = new WeightControlStructure();
-        cs.setVisible(true);
-    }//GEN-LAST:event_Dash_controlStructuresBtnActionPerformed
+        WeightVariables wv = new WeightVariables();
+        wv.setVisible(true);
+    }//GEN-LAST:event_Dash_VariablesBtnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void Dash_controlStructuresBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Dash_controlStructuresBtn1ActionPerformed
+        // TODO add your handling code here:
+        WeightControlStructure cs = new WeightControlStructure();
+        cs.setVisible(true);
+    }//GEN-LAST:event_Dash_controlStructuresBtn1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        //Control Structure**************************************************************************************************
+        complexityFactor cf = new complexityFactor();
+        cf.setVisible(true);
+        
+        
+//        DefaultTableModel model_input_CS = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel model_output = (DefaultTableModel)FactorTable.getModel();
+        Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
+        BufferedReader br = new BufferedReader(inputString);
+        
+        String text;
+        
+       int count_if = 0;
+       int count_elseif = 0;
+       int count_for = 0;
+       int count_while = 0;
+       int count_switch = 0;
+       int count_case = 0;
+       
+       int weight = 0;
+       
+       int countLine = 0;
+       
+       String  previous_complexity ;
+       String previous_complexityIF = null;
+       String previousTextIF = null;
+       String no_of_cs;
+       String previousComplex;
+       String wCs;
+       
+       String line60IF = null;
+       int lineIF = 0;
+       
+       int countNC = 0;
+       
+       int pc = 0;
+       
+       int nc = 1;
+       
+       int Ccs = 0;
+       
+       int Wtcs = 0;
+       int Wtcs_if = 2;
+       
+       int Ccspps = 0;
+       
+       int  CcsSwitch = 0;
+       
+       int OBrackets = 0;
+       int CBrackets = 0;
+       int tempCcspps = 0;
+       
+       int previousCountLine = 0;
+       
+       String w;
+       String previous = "";
+        
+
+        try{
+            
+            //Reading lines
+            
+            while((text = br.readLine()) != null){
+                
+                if(text.contains("if") || text.contains("for") || text.contains("while") || text.contains("do") || text.contains("switch")){
+                    
+                    Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                    previous = text;
+                    OBrackets++;
+                    //model_output.setValueAt(text,countLine,1);
+                    //model_output.setValueAt(countLine+1,countLine,0);
+                    
+                    //get weigths from weights table
+                    if(text.contains("if")){
+                       // Wtcs = Integer.parseInt(model_input_CS.getValueAt(0,1).toString());
+                       Wtcs = 2;
+                    }else if(text.contains("for") || text.contains("while") || text.contains("do")){
+                        //Wtcs = Integer.parseInt(model_input_CS.getValueAt(1,1).toString());
+                        Wtcs = 3;
+                    }else if(text.contains("switch")){
+                        //Wtcs = Integer.parseInt(model_input_CS.getValueAt(2,1).toString());
+                        Wtcs = 2;    
+                    }
+                    //Search && in if
+                    String[] newString = text.split("\\s+");
+                    for(String ss : newString){
+                        if(ss.contains("&&")){
+                            nc++;
+                        }
+                    }
+                   //Setting values to table 
+                   // model_output.setValueAt(Wtcs,countLine,2);
+                   // model_output.setValueAt(nc,countLine,3);
+                    Ccs = (Wtcs * nc) + Ccspps;
+                    model_output.setValueAt(Ccs,countLine,7);
+                    tempCcspps = Ccs;
+                   CcsSwitch = Integer.parseInt(model_output.getValueAt(countLine,7).toString());
+                    countLine++;
+                    nc = 1;
+                    
+                   
+                    
+                    
+                    
+                    text = br.readLine();
+                    //Go inside
+                    while(OBrackets != CBrackets){
+                        
+                        //Checking nested
+                        
+                        //for,while,do
+                        if(text.contains("for") || text.contains("while") || text.contains("do")){
+                            Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                            if(previous.contains("for") && text.contains("for")){
+                                Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                            }if(previous.contains("while") && text.contains("while")){
+                                Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                            }if(previous.contains("do") && text.contains("do")){
+                                Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                            }
+                            
+                            String[] string = text.split("\\s+");
+                            for(String ss : string){
+                            if(ss.contains("&&")){
+                            nc++;
+                            }
+                            }
+                            
+                            
+                            //Setting values to table
+                            OBrackets++;
+                            //model_output.setValueAt(nc,countLine,3);
+                           // Wtcs = Integer.parseInt(model_input_CS.getValueAt(1,1).toString());
+                            //model_output.setValueAt(Wtcs,countLine,2);
+                            Ccs = (3 * nc) + Ccspps;
+                            model_output.setValueAt(Ccs,countLine,7);
+                           // model_output.setValueAt(text,countLine,1);
+                          //  model_output.setValueAt(countLine+1,countLine,0);
+                            //model_output.setValueAt(Ccspps,countLine,4);
+                            text = br.readLine();
+                            previous = text;
+                            countLine++;
+                            
+                        }
+                        //if
+                        else if(text.contains("if") && !text.contains("//")){
+                            if(previous.contains("if") && text.contains("if")){
+                                Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                            }
+                            String[] string = text.split("\\s+");
+                            for(String ss : string){
+                            if(ss.contains("&&")){
+                            nc++;
+                            }
+                            }
+                            //Setting values to table
+                            OBrackets++;
+                           // model_output.setValueAt(nc,countLine,3);
+                           // Wtcs = Integer.parseInt(model_input_CS.getValueAt(0,1).toString());
+                            //model_output.setValueAt(Wtcs,countLine,2);
+                            Ccs = (2 * nc) + Ccspps;
+                            model_output.setValueAt(Ccs,countLine,7);
+                           // model_output.setValueAt(text,countLine,1);
+                           // model_output.setValueAt(countLine+1,countLine,0);
+                           // model_output.setValueAt(Ccspps,countLine,4);
+                            text = br.readLine();
+                            previous = text;
+                            countLine++;
+                            
+                        }
+                        //else if
+                        else if(text.contains("else") && !text.contains("//")){
+                            
+                            OBrackets++;
+                            Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+//                            model_output.setValueAt(text,countLine,1);
+//                            model_output.setValueAt(countLine+1,countLine,0);
+                            model_output.setValueAt(Ccs,countLine,7);
+                            text = br.readLine();
+                            countLine++;
+                            
+                        }
+                        //Switch
+                        else if(text.contains("switch") && !text.contains("//")){
+                            Ccspps = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                           // model_output.setValueAt(text,countLine,1);
+                           // model_output.setValueAt(countLine+1,countLine,0);
+                            //model_output.setValueAt(1,countLine,3);
+                           // Wtcs = Integer.parseInt(model_input_CS.getValueAt(2,1).toString());
+                            //model_output.setValueAt(Ccspps,countLine,4);
+                            //model_output.setValueAt(Wtcs,countLine,2);
+                            CcsSwitch = (2 * nc) + Ccspps;
+                            model_output.setValueAt(Ccs,countLine,7);
+                            text = br.readLine();
+                            previous = text;
+                          // CcsSwitch = Integer.parseInt(model_output.getValueAt(countLine,7).toString());
+                            countLine++;
+                            
+                        }
+                        //Case
+                        else if(text.contains("case") && !text.contains("//")){
+                            
+                          // CcsSwitch = Integer.parseInt(model_output.getValueAt(countLine-1,7).toString());
+                           // model_output.setValueAt(text,countLine,1);
+                           // model_output.setValueAt(countLine+1,countLine,0);
+                            //model_output.setValueAt(1,countLine,3);
+                           // Wtcs = Integer.parseInt(model_input_CS.getValueAt(3,1).toString());
+                           // model_output.setValueAt(CcsSwitch,countLine,4);
+                            //model_output.setValueAt(Wtcs,countLine,2);
+                            Ccs = (1 * nc) + CcsSwitch;
+                            model_output.setValueAt(Ccs,countLine,7);
+                            text = br.readLine();
+                            countLine++;
+                            
+                        }else if(text.contains("}")){
+                            CBrackets++;
+                            if(OBrackets == CBrackets){
+                           // model_output.setValueAt(text,countLine,1);
+                           // model_output.setValueAt(countLine+1,countLine,0);
+                            Ccs = (Wtcs * nc) + Ccspps;
+                            model_output.setValueAt(Ccs,countLine,7);
+                            //set wtcs,NC,CCspps,Ccs
+                            //text = br.readLine();
+                            countLine++;
+                                }else{
+                                   // model_output.setValueAt(text,countLine,1);
+                                   // model_output.setValueAt(countLine+1,countLine,0);
+                                    Ccs = (Wtcs * nc) + Ccspps;
+                                    model_output.setValueAt(Ccs,countLine,7);
+                            //set wtcs,NC,CCspps,Ccs
+                                    text = br.readLine();
+                                    countLine++;
+                                }
+                        
+                        }else{
+                            
+                          //  Wtcs = 0;
+                            Ccs = 0;
+                            Ccspps = 0;
+                            nc = 1;
+                            
+                           // model_output.setValueAt(text,countLine,1);
+                           // model_output.setValueAt(countLine+1,countLine,0);
+                            Ccs = (Wtcs * nc) + Ccspps;
+                            model_output.setValueAt(Ccs,countLine,7);
+                            text = br.readLine();
+                            countLine++;
+                        }
+                          Wtcs = 0;
+                          Ccs = 0;
+                          Ccspps = 0;
+                          nc = 1;
+                    }
+                    Wtcs = 0;
+                    Ccs = 0;
+                    Ccspps = 0;
+                    
+                }else{
+                   // model_output.setValueAt(text,countLine,1);
+                   // model_output.setValueAt(countLine+1,countLine,0);
+                    Ccs = (Wtcs * nc) + Ccspps;
+                    model_output.setValueAt(Ccs,countLine,7);
+                    countLine++;
+                    Wtcs = 0;
+                    Ccs = 0;
+                    Ccspps = 0;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+ 
+        }catch(IOException e){
+            Logger.getLogger(WeightControlStructure.class.getName()).log(Level.SEVERE, null, e);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
+        
+         //get total ccs************************************************************************************************************
+        int sumccs = 0;
+        
+        for(int i = 0; i < FactorTable.getRowCount(); i++){
+            
+            if(FactorTable.getValueAt(i,7) != null){
+                sumccs = sumccs + Integer.parseInt(FactorTable.getValueAt(i,7).toString());
             }
-        });
-    }
+            
+        }
+        
+        lccs.setText(Integer.toString(sumccs));
+        
+        
+ // Methods******************************************************************************************************************
+ 
+          
+        Reader inputString1 = new StringReader(Dash_UploadSpace.getText().toString());
+        BufferedReader br1 = new BufferedReader(inputString1);
+           
+          String text1;
+         
+             
+            int Npdtp = 0;
+            int Ncdtp = 0;
+            int Wmrt = 0;
+            int Wpdtp = 0;
+            int Wcdtp = 0;
+            int n = 0;
+          
+                
+            int Cm = 0;
+            
+            int count = 0;
+            
+        try {
+            //reading lines untill there are no lines left
+            
+          while((text1 = br1.readLine()) != null){
+              
+              //checking whether method exists
+              
+              if(text1.contains("public") && !text1.contains("class")){
+                  
+                  //checking whether primitive method exists
+                  
+                  if(text1.contains("public int") || text1.contains("public long") || text1.contains("public double") || text1.contains("public float") || text1.contains("public boolean") || text1.contains("public char") || text1.contains("public byte") || text1.contains("public short")){
+                    
+                      String[] newString = text1.split("\\s+");
+                      for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                         Npdtp++;
+                        }
+                      }
+                      
+                      if(text1.contains(",")){
+                         Npdtp = Npdtp+1; 
+                      }
+                      
+                     Wmrt = 1;
+                     //model_output.setValueAt(Wmrt,count,2);
+                     //model_output.setValueAt(Ncdtp,count,4);
+                     //model_output.setValueAt(Npdtp,count,3);
+                     //model_output.setValueAt(Wmrt,count,5);
+                     Wpdtp = 1;
+                     Cm = Wmrt + (Wpdtp * Npdtp) + (Wcdtp * Ncdtp);
+                     model_output.setValueAt(Cm,count,4);
+                     Npdtp = 0;
+                     
+                      //checking whether void methods exitss
+                     
+                  }else if(text1.contains("void")){
+                      if(text1.contains("String")){
+                          Ncdtp++;
+                          Wcdtp = 2;
+
+                      }if(text1.contains("int")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("float")){
+                          Npdtp++;
+                          Wpdtp = 1;
+                          
+                      }if(text1.contains("boolean")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("double")){
+                          Npdtp++;
+                          Wpdtp = 1;
+                          
+                      }if(text1.contains("short")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("long")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("byte")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }
+                          Wmrt = 0;
+                          //model_output.setValueAt(Wmrt,count,2);
+                          //model_output.setValueAt(Npdtp,count,3);
+                          //model_output.setValueAt(Ncdtp,count,4);
+                          //model_output.setValueAt(Wmrt,count,5);
+                          Cm = Wmrt + (Wpdtp * Npdtp) + (Wcdtp * Ncdtp);
+                          model_output.setValueAt(Cm,count,4);
+                          Npdtp = 0;
+                          Ncdtp = 0;
+                          
+                      
+                          
+                  }else if(text1.contains("String")){
+                      
+                      if(text1.contains("String")){
+                          Ncdtp++;
+                          Wcdtp = 2;
+
+                      }if(text1.contains("int")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("float")){
+                          Npdtp++;
+                          Wpdtp = 1;
+                          
+                      }if(text1.contains("boolean")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("double")){
+                          Npdtp++;
+                          Wpdtp = 1;
+                          
+                      }if(text1.contains("short")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("long")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }if(text1.contains("byte")){
+                          Npdtp++;
+                          Wpdtp = 1;
+
+                      }
+                      
+                     Wmrt = 2;
+                     //model_output.setValueAt(Wmrt,count,2);
+//                     model_output.setValueAt(Npdtp,count,3);
+//                     model_output.setValueAt(Ncdtp,count,4);
+//                     model_output.setValueAt(Wmrt,count,5);
+                     Cm = Wmrt + (Wpdtp * Npdtp) + (Wcdtp * Ncdtp);
+                     model_output.setValueAt(Cm,count,4);
+                     Npdtp = 0;
+                     Ncdtp = 0;
+                  }
+              }else{
+                  model_output.setValueAt(Cm,count,4);
+              }
+              model_output.setValueAt(count+1,count,0);
+              model_output.setValueAt(text1,count,1);
+              Cm = 0;
+              count++;
+              
+
+          }
+        } catch (IOException ex) {
+            Logger.getLogger(WeightSize.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //get total cm************************************************************************************************************
+        int summ = 0;
+        
+        for(int i = 0; i < FactorTable.getRowCount(); i++){
+            
+            if(FactorTable.getValueAt(i,4) != null){
+                summ = summ + Integer.parseInt(FactorTable.getValueAt(i,4).toString());
+            }
+            
+        }
+        
+        lcm.setText(Integer.toString(summ));
+
+
+        //Variables********************************************************************************************************************************
+        
+         
+           Reader inputString2 = new StringReader(Dash_UploadSpace.getText().toString());
+          
+           
+           //creating an object of buffer reader
+           
+           BufferedReader br2 = new BufferedReader(inputString2);
+           
+           //defining variables
+           
+          // String text;
+           //String text1;
+           String text2;
+          // String text3;
+          // String previousText;
+            
+           int Npdtv = 0;
+           int Ncdtv = 0;
+           int Wpdtv = 0;
+           int Wcdtv = 0;
+           int Wvs = 0;
+           int Cv = 0;
+           int previousC = 0;
+           int cRBrackets = 0;
+           int cLBrackets = 0;
+           
+           countLine = 0;
+           //int count = 0;
+           
+           //String lineText = "";
+           
+           
+        try {
+            //reading lines untill there are no lines left
+            
+            while((text2 = br2.readLine()) != null){
+                //cheacking whether the line contains control structures
+                
+               if(text2.contains("if") || text2.contains("while") || text2.contains("do") || text2.contains("for") || text2.contains("switch") || text2.contains("case")){
+                   //counting opened brackets
+                   
+                   if(text2.contains("{")){
+                       cRBrackets++;
+                      model_output.setValueAt(Cv,countLine,3);
+                       
+                     
+                   }else{
+                       text2 = br2.readLine();
+                       cRBrackets++;
+                      model_output.setValueAt(Cv,countLine,3);
+                       countLine++;
+                   }
+                   
+                   //runing inside control structures until it's over
+                   
+                   while(cRBrackets != cLBrackets){
+                       if(text2.contains("{")){
+                          cRBrackets++;
+                          model_output.setValueAt(Cv,countLine,3);
+                          text2 = br2.readLine();
+                          countLine++;
+                          
+                   // counting closed brackets
+                          
+                       }else if(text2.contains("}")){
+                          cLBrackets++;
+                           if(cRBrackets == cLBrackets){
+                                model_output.setValueAt(Cv,countLine,3);
+//                                 dtm.setValueAt(countLine+1,countLine,0);
+                                 countLine++;
+                                  
+                                }else{
+//                                  dtm.setValueAt(text,countLine,1);
+//                                  dtm.setValueAt(countLine+1,countLine,0); 
+                                    model_output.setValueAt(Cv,countLine,3);
+                                  text2 = br2.readLine(); 
+                                  countLine++;
+                                }
+                       }else{
+//                          dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0); 
+                            model_output.setValueAt(Cv,countLine,3);
+                          text2 = br2.readLine(); 
+                          countLine++;
+                       }
+                   }
+                   
+                 //checking whether line contains an opening of a method
+                 
+               }else if(text2.contains("public") && !text2.contains("class")){
+                   if(text2.contains("{")){
+//                       dtm.setValueAt(text,countLine,1);
+//                       dtm.setValueAt(countLine+1,countLine,0);
+                        model_output.setValueAt(Cv,countLine,3);
+                       cRBrackets++;
+                  
+                   }else{
+//                       dtm.setValueAt(text,countLine,1);
+//                       dtm.setValueAt(countLine+1,countLine,0);
+                        model_output.setValueAt(Cv,countLine,3);
+                       text2 = br2.readLine();
+                       cRBrackets++;
+                       countLine++;
+                   }
+                   
+                   //runing inside method until it's over
+                   
+                   while(cRBrackets != cLBrackets){
+                       if(text2.contains("{")){
+//                           dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            model_output.setValueAt(Cv,countLine,3);
+                          cRBrackets++;
+                          text2 = br2.readLine();
+                          countLine++;
+                          
+                   // counting closed brackets
+                   
+                       }else if(text2.contains("}")){
+                          
+                          cLBrackets++;
+                        
+                            if(cRBrackets == cLBrackets){
+//                                 dtm.setValueAt(text,countLine,1);
+//                                 dtm.setValueAt(countLine+1,countLine,0);
+                                 model_output.setValueAt(Cv,countLine,3);
+                                 
+                                 countLine++;
+                                  
+                                }else{
+//                                  dtm.setValueAt(text,countLine,1);
+//                                  dtm.setValueAt(countLine+1,countLine,0);
+                                   model_output.setValueAt(Cv,countLine,3);
+                                  countLine++;
+                                  text2 = br2.readLine(); 
+                                }
+                       }else{
+                         
+                   //checking whether line contains int 
+                   
+                        if(text2.contains("int") && !text2.contains("print") && !text2.contains("(int)")){
+                            
+                            String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                     
+                      
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                             text2 = br2.readLine();
+                      
+                     //checking whether line contains float,double,long,short,byte,boolean,char
+                     
+                        }else if(text2.contains("float") && text2.contains("(float)")){
+                            
+                             String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            
+                        }else if(text2.contains("double") && !text2.contains("(double)")){
+                            
+                             String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            
+                        }else if(text2.contains("long") && !text2.contains("(long)")){
+                            
+                             String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            
+                        }else if(text2.contains("short") && !text2.contains("(short)")){
+                            
+                            String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                           model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            
+                        }else if(text2.contains("byte") && !text2.contains("(byte)")){
+                            
+                             String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            
+                        }else if(text2.contains("boolean") && !text2.contains("(boolean)")){
+                            
+                             String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+                           // model_output.setValueAt(Wvs,countLine,3);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            
+                        }else if(text2.contains("char") && !text2.contains("(char)")){
+                            
+                             String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 1;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                             
+                       //checking whether there are non primitive data types
+                       
+                        }else if(text2.contains("String") && !text2.contains("(String)")){
+                            
+                             String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Ncdtv++;
+                            }
+                        }
+                            
+                            Ncdtv++;
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+//                            dtm.setValueAt(Npdtv,countLine,3);
+                            Wvs = 1;    
+                            Wcdtv = 2;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Ncdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            
+                        }else if(text2.contains("private")){
+                            if(!text2.contains("int") || !text2.contains("float") || !text2.contains("boolean") || !text2.contains("char") || !text2.contains("short") || !text2.contains("long") || !text2.contains("byte") || !text2.contains("String") || !text2.contains("double")){
+                                
+                                 String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                                Ncdtv++;
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+//                            dtm.setValueAt(Npdtv,countLine,3);
+                            Wvs = 1;    
+                            Wcdtv = 1;
+                           
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Ncdtv = 0;
+                            countLine++;
+                            text2 = br2.readLine();
+                            }
+                        }else{
+                            
+                            //printing lines which are not containing any data types
+                            
+//                              dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                          text2 = br2.readLine(); 
+                          countLine++;
+                        }
+                       }
+                   }
+                   
+               //checking whether line contains int
+               
+               }else if(text2.contains("int") && !text2.contains("print") && !text2.contains("(int)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+                //checking whether line contains float,double,long,short,byte,boolean,char
+                
+               }else if(text2.contains("float") && !text2.contains("(float)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+                 //checking whether there are non primitive data types
+               }else if(text2.contains("double") && !text2.contains("(double)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+               }else if(text2.contains("long") && !text2.contains("(long)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+               }else if(text2.contains("short") && !text2.contains("(short)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+               }else if(text2.contains("byte") && !text2.contains("(byte)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+               }else if(text2.contains("boolean") && !text2.contains("(boolean)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+               }else if(text2.contains("char") && !text2.contains("(char)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Npdtv++;
+                            }
+                        }
+                            
+                            Npdtv++;
+//                            dtm.setValueAt(Npdtv,countLine,3);
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+                            Wvs = 2;    
+                            Wpdtv = 1;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Npdtv = 0;
+                            countLine++;
+                            
+               }else if(text2.contains("String") && !text2.contains("(String)")){
+                   
+                    String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Ncdtv++;
+                            }
+                        }
+                            
+                            Ncdtv++;
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+//                            dtm.setValueAt(Npdtv,countLine,3);
+                            Wvs = 2;    
+                            Wcdtv = 2;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Ncdtv = 0;
+                            countLine++;
+                            
+               }else if(text2.contains("private")){
+                            if(!text2.contains("int") || !text2.contains("float") || !text2.contains("boolean") || !text2.contains("char") || !text2.contains("short") || !text2.contains("long") || !text2.contains("byte") || !text2.contains("String") || !text2.contains("double")){
+                                
+                                 String[] newString = text2.split("\\s+");
+                            for(String ss : newString){
+                     
+                       if(ss.contains(",")){
+                            Ncdtv++;
+                            }
+                        }
+                            Ncdtv++;
+//                            dtm.setValueAt(Ncdtv,countLine,4);
+//                            dtm.setValueAt(Npdtv,countLine,3);
+                            Wvs = 2;    
+                            Wcdtv = 2;
+//                            dtm.setValueAt(Wvs,countLine,2);
+                            Cv = Wvs * (Npdtv * Wpdtv + Ncdtv * Wcdtv);
+                            model_output.setValueAt(Cv,countLine,3);
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            Cv = 0;
+                            Ncdtv = 0;
+                            countLine++;
+                            }
+               
+               }else{
+                   
+                   //printing lines which are not containing any data types
+                   
+//                            dtm.setValueAt(text,countLine,1);
+//                            dtm.setValueAt(countLine+1,countLine,0);
+                            model_output.setValueAt(Cv,countLine,3);
+                            countLine++;
+               }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(WeightVariables.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        //get total cv************************************************************************************************************
+        int sumv = 0;
+        
+        for(int i = 0; i < FactorTable.getRowCount(); i++){
+            
+            if(FactorTable.getValueAt(i,3) != null){
+                sumv = sumv + Integer.parseInt(FactorTable.getValueAt(i,3).toString());
+            }
+            
+        }
+        
+        lcv.setText(Integer.toString(sumv));
+        
+        
+        
+        
+         //Size****************************************************************************************************************************
+        Reader inputString3 = new StringReader(Dash_UploadSpace.getText().toString());
+                 
+        BufferedReader br3 = new BufferedReader(inputString3);
+        
+           
+             
+            int Wkw = 0;
+            int Wid = 0;
+            int Wop = 0;
+            int Wnv = 0;
+            int Wsl = 0;
+
+            int a = 0;
+                
+            int Cs = 0;
+            countLine = 0;
+            
+  
+            String text3;
+        
+        try {
+            while((text3 = br3.readLine()) != null){
+                if(text3.contains("//") || text3.contains("import")){
+//                   model_output.setValueAt(countLine+1,countLine,0);
+//                   model_output.setValueAt(text,countLine,1);
+                   model_output.setValueAt(Cs,countLine,2);
+                   countLine++;
+                }else{
+                
+                int Nkw = 0;
+                int Nop = 0;
+                int Nnv = 0;
+                int Nsl = 0;
+                int Nid = 0;
+              
+                
+                String[] newString = text3.split("\\s+");
+                for(String ss : newString){
+                    if(ss.equals("abstract") || ss.equals("break") || ss.contains("catch") || ss.equals("class") || ss.contains("continue") || ss.contains("default") || ss.contains("do") || ss.contains("else") || ss.contains("enum") || ss.equals("extends") || ss.contains("final")
+                            || ss.contains("finally")|| ss.equals("implements") || ss.contains("instanceof") || ss.equals("interface")
+                            || ss.contains("native") || ss.equals("new") || ss.contains("null") || ss.contains("package") || ss.equals("private") || ss.equals("protected") || ss.equals("public")
+                            || ss.equals("return") || ss.equals("static") || ss.contains("strictfp") || ss.contains("super")|| ss.contains("synchronized") || ss.contains("this") || ss.contains("throw")
+                            || ss.contains("throws") || ss.contains("transient") || ss.contains("try") || ss.equals("void") || ss.contains("volatile")){
+                        
+                        Nkw++;
+                    }
+                    
+                    if(ss.contains("+") || ss.contains("-") || ss.contains("*") || ss.contains("/") || ss.contains("%") || ss.contains("++") || ss.contains("--") || ss.contains("==") || ss.contains("!=") || ss.contains(">") || ss.contains("<") || ss.contains(">=") || ss.contains("<=") || 
+                            ss.contains("&&") || ss.contains("||") || ss.contains("!") || ss.contains("|") || ss.contains("^") || ss.contains("~") || ss.contains("<<") || ss.contains(">>") || ss.contains(">>>") || ss.contains("<<<") || ss.contains(",") || ss.contains("->") || ss.contains(".") ||ss.contains("'") || ss.contains("::") || 
+                            ss.contains("+=") || ss.contains("-=") || ss.contains("*=") || ss.contains("/=") || ss.contains("=") || ss.contains(">>>=") || ss.contains("|=") || ss.contains("&=") || ss.contains("%=") ||  ss.contains("<<=") || ss.contains(">>=") || ss.contains("^=")){
+                        
+                        if(ss.contains(".") && ss.contains("System.out")){
+                            
+                            Nop = Nop + 2;
+                        }else{
+                           
+                            Nop++;
+                        }
+                        
+                    }
+                    
+                    if(ss.contains("=") && !text3.contains("for")){
+                        if(!text3.contains("(") && !text3.matches(".*[0-9].*")){
+                            Nid = Nid + 2;
+                        }else{
+                        
+                        Nid++;
+                        }
+                    }if(ss.matches(".*[0-9].*")){
+                        
+                        Nnv++;
+                    }
+          
+
+//                
+//                    if(ss.contains("[]") || ss.contains("ArrayList") || ss.contains("HashMap") || ss.contains("List")){
+//                        
+//                        if(!text.contains("public") && !text.contains("private") && !text.contains("protected") && !text.contains("default")){
+//                            
+//                            Nid++;
+//                        }
+//                    
+//                    }
+                    
+                    
+//                    }
+                         
+            }if(text3.contains("(") || text3.contains("class")){
+                
+                Nid++;
+            
+            }if(text3.contains(".equals") || text3.contains(".matches") || text3.contains(".contains") || text3.contains(".set") || text3.contains(".get")){
+                        
+                Nid++;
+                
+            }if(text3.contains("System.out.print")){
+                String[] nString = text3.split("\\s+");
+                for(String s2 : nString){
+                    if(s2.contains("+")){
+                        if(text3.contains("\"")){
+                            a++;
+                        }else{
+                            a = a+2;
+                        }
+                        
+                    }
+              }
+//                a = a/2;
+                Nid = Nid + 2 + a;
+                a = 0;
+                
+            }if(text3.contains("\"")) {
+                        
+                        Nsl++;
+                        
+                        if(Nsl%2 == 0){
+                            
+                            Nsl = Nsl/2;
+                        }
+                        
+                    
+//            }if(text.contains("=") && !text.contains("(")){
+//                Nnv++;
+//            }
+//            
+//            
+//            if(text.contains("case") && text.matches(".*\\d.*") ){
+//                 Nnv++;
+//                  
+            //}
+            if(text3.contains("for")){
+                    
+                     String[] parts = text3.split(";");
+                     String part1 = parts[0];
+                     String part2 = parts[1];
+                     
+                        if(!part2.matches(".*\\d.*")){
+                            Nid++;
+                        }
+         
+                        if(text3.contains("int") || text3.contains("[]")){
+                            Nid++;
+                        }
+                        
+                        if(text3.contains("==") || text3.contains("!=") || text3.contains(">") || text3.contains("<") || text3.contains(">=") || text3.contains("<=")){
+                            Nid++;
+                        }
+                        
+                        if(text3.contains("+") || text3.contains("-")){
+                            Nid++;
+                        }
+                    
+                }else if(text3.contains("++") || text3.contains("--")){
+                
+                    Nid++;
+                }
+            }
+//                if(text.contains("for")){
+//                    count = countLine + 1; 
+//                    for(int line = 1; line == count; line++){
+//                        if(line == count){
+//                            textN = br.readLine();
+//                            
+//                            if(!textN.contains("}")){
+//                                if(textN.contains("int")){
+//                                    n = n+1;
+//                                    dtm.setValueAt(n,line,3);
+//                                    count++;
+//                                }else{
+//                                    count++;
+//                                    }
+//                            }
+//                        }else{
+//                            br.readLine();
+//                            }
+//                }
+//                     
+//                }
+                
+                
+         
+            
+            Wkw = 1;
+            Wid = 1;
+            Wop = 1;
+            Wnv = 1;
+            Wsl = 1;
+            
+            Cs = (Wkw*Nkw) + (Wid*Nid) + (Wop*Nop) + (Wnv*Nnv) + (Wsl*Nsl);
+//            
+//            model_output.setValueAt(countLine+1,countLine,0);
+//            model_output.setValueAt(text,countLine,1);
+//            
+//            if(Nkw != 0){
+//              model_output.setValueAt(Nkw,countLine,2);  
+//            }
+//            
+//           
+////            int nval = 0;
+////            
+////            try{ 
+////            String sval = dtm.getValueAt(countLine,3).toString();
+////            nval = Integer.parseInt(sval);  
+////                Nid = Nid + nval;
+////                dtm.setValueAt(Nid,countLine,3);
+////            }catch(Exception e){
+//
+//            if(Nid != 0){
+//               model_output.setValueAt(Nid,countLine,3); 
+//            }
+//                
+////            }
+//            
+//          
+//            if(Nop != 0){
+//               model_output.setValueAt(Nop,countLine,4); 
+//            }  
+//            if(Nnv != 0){
+//               model_output.setValueAt(Nnv,countLine,5); 
+//            }
+//            if(Nsl != 0){
+//               model_output.setValueAt(Nsl,countLine,6); 
+//            }
+            
+            model_output.setValueAt(Cs,countLine,2);
+            
+            countLine++; 
+            
+               
+            }
+            
+            } 
+            
+            
+           // int keywords = Nkw * Integer.parseInt(model.getValueAt(0,1).toString());
+           // jLabel1.setText(Integer.toString(keywords));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(WeightSize.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        //get total cs************************************************************************************************************
+        int sums = 0;
+        
+        for(int i = 0; i < FactorTable.getRowCount(); i++){
+            
+            if(FactorTable.getValueAt(i,2) != null){
+                sums = sums + Integer.parseInt(FactorTable.getValueAt(i,2).toString());
+            }
+            
+        }
+        
+        lcs.setText(Integer.toString(sums));
+ 
+        
+        
+       //Inheritance*******************************************************************************************************************
+       
+//             complexityInheritance cs = new complexityInheritance();
+//        cs.setVisible(true);
+        // TODO add your handling code here:
+      //  CIcheck(); 
+      
+      WeightInheritance clsWI = new WeightInheritance();
+      
+        ArrayList<WeightInheritance.Inheritance> ci =clsWI.CIcheck();
+        //DefaultTableModel model_output = (DefaultTableModel)FactorTable.getModel();
+          
+   // Object[] row = { "a", "as", "as", "ad" };
+   // dtable.addRow(row);
+   //dtable.setValueAt("assa", 2, 2);
+    int count1=0 ;
+    int Ci =0;
+    int totci=0;
+    for(WeightInheritance.Inheritance str : ci ){
+        int tot= str.direct+str.indirect; ; 
+       if(tot<4){
+           Ci = tot;
+       }else {
+           Ci = 4;
+       }
+       
+        
+       
+       totci =   totci +Ci ;
+            System.out.println("cal "+str.cName +" d-"+str.direct+" i-"+str.indirect+" t-"+tot+" "+str.total);
+          
+//            dtable.setValueAt(count+1, count, 0);
+//           dtable.setValueAt(str.cName, count, 1);
+//            dtable.setValueAt(str.direct, count, 2);
+//             dtable.setValueAt(str.indirect, count, 3);
+//              dtable.setValueAt(tot, count, 4);
+ 
+    
+              model_output.setValueAt(Ci, str.total-1, 5);
+              
+          // count++;
+        }
+//    dtable.setValueAt("Total Ci ", count+1, 1);
+//    dtable.setValueAt(totci, count+1, 5);
+
+//get total ci************************************************************************************************************
+        int sumi = 0;
+        
+        for(int i = 0; i < FactorTable.getRowCount(); i++){
+            
+            if(FactorTable.getValueAt(i,5) != null){
+                sumi = sumi + Integer.parseInt(FactorTable.getValueAt(i,5).toString());
+            }
+            
+        }
+        
+        lci.setText(Integer.toString(sumi));
+        
+       
+        
+        
+        
+        
+        
+        //get total complexity *********************************************************************************************************
+       
+       int sumt = 0;
+       
+       sumt = Integer.parseInt(lcs.getText())+Integer.parseInt(lcm.getText())+Integer.parseInt(lcv.getText())+Integer.parseInt(lci.getText())+ Integer.parseInt(lccs.getText()) ;
+       
+       ltcps.setText(Integer.toString(sumt));
+       
+            
+       
+    }//GEN-LAST:event_jButton1ActionPerformed
+//
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Dashboard().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Dash_CouplingBtn;
@@ -401,7 +1935,8 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton Dash_UploadBtn;
     public static javax.swing.JTextArea Dash_UploadSpace;
     private javax.swing.JButton Dash_VariablesBtn;
-    private javax.swing.JButton Dash_controlStructuresBtn;
+    private javax.swing.JButton Dash_controlStructuresBtn1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;

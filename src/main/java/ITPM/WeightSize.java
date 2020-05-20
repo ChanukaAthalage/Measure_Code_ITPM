@@ -6,6 +6,7 @@
 package ITPM;
 
 
+import static ITPM.ComplexitySize.jTable1;
 import static ITPM.Dashboard.Dash_UploadSpace;
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +16,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -186,78 +189,274 @@ public class WeightSize extends javax.swing.JFrame {
 
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
 
+           ComplexitySize cs = new ComplexitySize();
+           cs.setVisible(true);
+            
            DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
+           
+           DefaultTableModel dtm = (DefaultTableModel)jTable1.getModel();
+           
            Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
            
            BufferedReader br = new BufferedReader(inputString);
            
-           String text;
+           String text,kw,id,op,nv,sl;
+           
+           int countLine = 0;
+             
+            int Wkw = 0;
+            int Wid = 0;
+            int Wop = 0;
+            int Wnv = 0;
+            int Wsl = 0;
+            int n = 0;
+            int a = 0;
+                
+            int Cs = 0;
             
-           int countKey = 0;
-           int countOps = 0;
-           int countNum = 0;
-           int countString = 0;
+            int count = 0;
+            String textN;
+           
+           
            
         try {
+            //reading lines
             while((text = br.readLine()) != null){
+                if(text.contains("//") || text.contains("import")){
+                   dtm.setValueAt(countLine+1,countLine,0);
+                   dtm.setValueAt(text,countLine,1);
+                   dtm.setValueAt(Cs,countLine,7);
+                   countLine++;
+                }else{
+                
+                int Nkw = 0;
+                int Nop = 0;
+                int Nnv = 0;
+                int Nsl = 0;
+                int Nid = 0;
+              
+                
                 String[] newString = text.split("\\s+");
                 for(String ss : newString){
-                    if(ss.equals("abstract")|| ss.equals("abstract") || ss.equals("break") || ss.equals("catch") || ss.equals("class") || ss.equals("continue") || ss.equals("default") || ss.equals("do") || ss.equals("else") || ss.equals("enum") || ss.equals("extends") || ss.equals("final")
-                            || ss.equals("finally")|| ss.equals("implements") || ss.equals("import") || ss.equals("instanceof") || ss.equals("interface")
-                            || ss.equals("native") || ss.equals("new") || ss.equals("null") || ss.equals("package") || ss.equals("private") || ss.equals("protected") || ss.equals("public")
-                            || ss.equals("return") || ss.equals("static") || ss.equals("strictfp") || ss.equals("super")|| ss.equals("synchronized") || ss.equals("this") || ss.equals("throw")
-                            || ss.equals("throws") || ss.equals("transient") || ss.equals("try") || ss.equals("void") || ss.equals("volatile")){
+                    
+                    //catching keywords
+                    if(ss.equals("abstract") || ss.equals("break") || ss.contains("catch") || ss.equals("class") || ss.contains("continue") || ss.contains("default") || ss.contains("do") || ss.contains("else") || ss.contains("enum") || ss.equals("extends") || ss.contains("final")
+                            || ss.contains("finally")|| ss.equals("implements") || ss.contains("instanceof") || ss.equals("interface")
+                            || ss.contains("native") || ss.equals("new") || ss.contains("null") || ss.contains("package") || ss.equals("private") || ss.equals("protected") || ss.equals("public")
+                            || ss.equals("return") || ss.equals("static") || ss.contains("strictfp") || ss.contains("super")|| ss.contains("synchronized") || ss.contains("this") || ss.contains("throw")
+                            || ss.contains("throws") || ss.contains("transient") || ss.contains("try") || ss.equals("void") || ss.contains("volatile")){
                         
-                        countKey++;
+                        Nkw++;
                     }
                     
+                    //catching operators
                     if(ss.contains("+") || ss.contains("-") || ss.contains("*") || ss.contains("/") || ss.contains("%") || ss.contains("++") || ss.contains("--") || ss.contains("==") || ss.contains("!=") || ss.contains(">") || ss.contains("<") || ss.contains(">=") || ss.contains("<=") || 
-                            ss.contains("&&") || ss.contains("||") || ss.contains("!") || ss.contains("|") || ss.contains("^") || ss.contains("~") || ss.contains("<<") || ss.contains(">>") || ss.contains(">>>") || ss.contains("<<<") || ss.contains(",") || ss.contains("->") || ss.contains(".") || ss.contains("::") || 
+                            ss.contains("&&") || ss.contains("||") || ss.contains("!") || ss.contains("|") || ss.contains("^") || ss.contains("~") || ss.contains("<<") || ss.contains(">>") || ss.contains(">>>") || ss.contains("<<<") || ss.contains(",") || ss.contains("->") || ss.contains(".") ||ss.contains("'") || ss.contains("::") || 
                             ss.contains("+=") || ss.contains("-=") || ss.contains("*=") || ss.contains("/=") || ss.contains("=") || ss.contains(">>>=") || ss.contains("|=") || ss.contains("&=") || ss.contains("%=") ||  ss.contains("<<=") || ss.contains(">>=") || ss.contains("^=")){
                         
                         if(ss.contains(".") && ss.contains("System.out")){
                             
-                            countOps = countOps + 2;
+                            Nop = Nop + 2;
                         }else{
                            
-                            countOps++;
+                            Nop++;
                         }
                         
                     }
                     
-                    if(ss.equals("byte") || ss.equals("short") || ss.equals("int") || ss.equals("long") || ss.equals("float") || ss.equals("double")){
+                    if(ss.contains("=") && !text.contains("for")){
                         
-                        countNum++;
+                        //catching identifiers
+                        if(!text.contains("(") && !text.matches(".*[0-9].*")){
+                            Nid = Nid + 2;
+                        }else{
+                        
+                        Nid++;
+                        }
+                        
+                        //catching numerical values
+                    }if(ss.matches(".*[0-9].*")){
+                        
+                        Nnv++;
                     }
+          
+
+//                
+//                    if(ss.contains("[]") || ss.contains("ArrayList") || ss.contains("HashMap") || ss.contains("List")){
+//                        
+//                        if(!text.contains("public") && !text.contains("private") && !text.contains("protected") && !text.contains("default")){
+//                            
+//                            Nid++;
+//                        }
+//                    
+//                    }
                     
-                    if(ss.contains("\"")){
+                    
+//                    }
+              //catching identifiers           
+            }if(text.contains("(") || text.contains("class")){
+                
+                Nid++;
+            
+            }if(text.contains(".equals") || text.contains(".matches") || text.contains(".contains") || text.contains(".set") || text.contains(".get")){
                         
-                        countString++;
+                Nid++;
+                
+            }if(text.contains("System.out.print")){
+                String[] nString = text.split("\\s+");
+                for(String s2 : nString){
+                    if(s2.contains("+")){
+                        if(text.contains("\"")){
+                            a++;
+                        }else{
+                            a = a+2;
+                        }
                         
                     }
-                         
-            }
-                if(countKey != 0 || countOps != 0 || countNum != 0 || countString != 0){
-                        
-                        countString = countString/2;
-                        
-                        System.out.println(text+"      "+countKey+"      "+countOps +"      "+countNum +"        " +countString);
-                        countKey = 0;
-                        countOps = 0;
-                        countNum = 0;
-                        countString = 0;
-                    } 
-             
+              }
+//                a = a/2;
+                Nid = Nid + 2 + a;
+                a = 0;
               
+                //catching string literals
+            }if(text.contains("\"")) {
+                        
+                        Nsl++;
+                        
+                        if(Nsl%2 == 0){
+                            
+                            Nsl = Nsl/2;
+                        }
+                        
+                    
+//            }if(text.contains("=") && !text.contains("(")){
+//                Nnv++;
+//            }
+//            
+//            
+//            if(text.contains("case") && text.matches(".*\\d.*") ){
+//                 Nnv++;
+//                  
+            //}
+            
+            //catching identifiers inside for loop
+            if(text.contains("for")){
+                    
+                     String[] parts = text.split(";");
+                     String part1 = parts[0];
+                     String part2 = parts[1];
+                     
+                        if(!part2.matches(".*\\d.*")){
+                            Nid++;
+                        }
+         
+                        if(text.contains("int") || text.contains("[]")){
+                            Nid++;
+                        }
+                        
+                        if(text.contains("==") || text.contains("!=") || text.contains(">") || text.contains("<") || text.contains(">=") || text.contains("<=")){
+                            Nid++;
+                        }
+                        
+                        if(text.contains("+") || text.contains("-")){
+                            Nid++;
+                        }
+                    
+                }else if(text.contains("++") || text.contains("--")){
+                
+                    Nid++;
+                }
+            }
+//                if(text.contains("for")){
+//                    count = countLine + 1; 
+//                    for(int line = 1; line == count; line++){
+//                        if(line == count){
+//                            textN = br.readLine();
+//                            
+//                            if(!textN.contains("}")){
+//                                if(textN.contains("int")){
+//                                    n = n+1;
+//                                    dtm.setValueAt(n,line,3);
+//                                    count++;
+//                                }else{
+//                                    count++;
+//                                    }
+//                            }
+//                        }else{
+//                            br.readLine();
+//                            }
+//                }
+//                     
+//                }
+                
+                
+            kw = model.getValueAt(0,1).toString();
+            id = model.getValueAt(1,1).toString();
+            op = model.getValueAt(2,1).toString();
+            nv = model.getValueAt(3,1).toString();
+            sl = model.getValueAt(4,1).toString();
+            
+            Wkw = Integer.parseInt(kw);
+            Wid = Integer.parseInt(id);
+            Wop = Integer.parseInt(op);
+            Wnv = Integer.parseInt(nv);
+            Wsl = Integer.parseInt(sl);
+            
+            Cs = (Wkw*Nkw) + (Wid*Nid) + (Wop*Nop) + (Wnv*Nnv) + (Wsl*Nsl);
+            
+            dtm.setValueAt(countLine+1,countLine,0);
+            dtm.setValueAt(text,countLine,1);
+            
+            if(Nkw != 0){
+              dtm.setValueAt(Nkw,countLine,2);  
             }
             
+           
+//            int nval = 0;
+//            
+//            try{ 
+//            String sval = dtm.getValueAt(countLine,3).toString();
+//            nval = Integer.parseInt(sval);  
+//                Nid = Nid + nval;
+//                dtm.setValueAt(Nid,countLine,3);
+//            }catch(Exception e){
+
+            if(Nid != 0){
+               dtm.setValueAt(Nid,countLine,3); 
+            }
+                
+//            }
             
-           // int keywords = countKey * Integer.parseInt(model.getValueAt(0,1).toString());
+          
+            if(Nop != 0){
+               dtm.setValueAt(Nop,countLine,4); 
+            }  
+            if(Nnv != 0){
+               dtm.setValueAt(Nnv,countLine,5); 
+            }
+            if(Nsl != 0){
+               dtm.setValueAt(Nsl,countLine,6); 
+            }
+            
+            dtm.setValueAt(Cs,countLine,7);
+            
+            countLine++; 
+            
+               
+            }
+            
+            } 
+            
+            
+           // int keywords = Nkw * Integer.parseInt(model.getValueAt(0,1).toString());
            // jLabel1.setText(Integer.toString(keywords));
             
         } catch (IOException ex) {
             Logger.getLogger(WeightSize.class.getName()).log(Level.SEVERE, null, ex);
         }
+ 
+ 
+ 
  
     }//GEN-LAST:event_jButtonStartActionPerformed
 
@@ -271,7 +470,15 @@ public class WeightSize extends javax.swing.JFrame {
         int i = jTable2.getSelectedRow();
         
         if(i >= 0){
-            model.setValueAt(jTextChange.getText(),i,1);
+                
+                try{
+                    int j = Integer.parseInt(jTextChange.getText().toString());
+                    model.setValueAt(jTextChange.getText(),i,1);
+                    
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(null,"Enter integers only");
+                }
+     
         }else{
             JOptionPane.showMessageDialog(null,"Click on a row to change");
         }
@@ -285,41 +492,41 @@ public class WeightSize extends javax.swing.JFrame {
         jTextChange.setText(model.getValueAt(selectedRow,1).toString());
     }//GEN-LAST:event_jTable2MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new WeightSize().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(WeightSize.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new WeightSize().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -329,7 +536,7 @@ public class WeightSize extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelChange;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    public static javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextChange;
     // End of variables declaration//GEN-END:variables
 }

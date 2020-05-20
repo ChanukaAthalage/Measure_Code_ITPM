@@ -5,10 +5,23 @@
  */
 package ITPM;
 
+import static ITPM.Dashboard.Dash_UploadSpace;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
+import static ITPM.complexityInheritance.jTable12;
 /**
  *
  * @author Chanuka
@@ -96,6 +109,11 @@ public class WeightInheritance extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Start Measuring");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,9 +175,136 @@ DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
             model.setValueAt(jTextChange.getText(),i,1);
         }else{
             JOptionPane.showMessageDialog(null,"Click on a row to change");
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonChangeActionPerformed
+        }  
+        
 
+    //DefaultTableModel model = (DefaultTableModel)jTable.getModel();
+   
+
+
+
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButtonChangeActionPerformed
+//Indeirect Inheritance 
+     public  int indeirectInheritance(String extendclass,String classname) {
+		  String line = null;  
+		 int indirect=0;
+		
+		try {  
+                    Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
+           
+           BufferedReader breader = new BufferedReader(inputString);
+			
+			//reading lines
+                         while ((line = breader.readLine()) != null) { 
+				  		
+					  	String[] words1 = line.split("\\s+");
+					
+					  	int di = 0 ;
+					  	// for (int x =0; x < words1.length ; x++) {
+					  		// ArrayList<String> di =  directInheritance(classname);
+                                                        //check class  and  add values
+					  		 if(directInheritance(classname)==0) {
+					  			 indirect = 0;
+					  		 }
+					  		 if(directInheritance(classname)>=1) {
+					  			 
+					  			 if(directInheritance(extendclass)==0) {
+					  				 indirect=0;
+					  			 }else {
+					  				 indirect=1;
+					  			 }
+					  		
+					  		 }
+					  			 
+					  			 
+					  			 
+					  						 
+					  				//1	 }
+					  			 
+					  		// }
+					  		 
+					  		 
+							//1 if("class".equals(words1[x])) {
+								// System.out.println(word[x+1]);
+						//1	  if(words1.length > 4) {
+								 // System.out.println("have 4 words");
+							//1	  if(classname.equals(words1[x+3])) {
+							//1		  di++;
+							//		  if ([directInheritance == word x+1]==1 ){ 
+									  	// indi++;
+									  // if (    )
+									  //
+									  //
+									  //} 
+									  // else  indi = 0
+								  //}
+							 //1 } 
+							//1 }
+						  
+						 //1 }
+					  	
+					  	
+			  }
+	
+		
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return  indirect;
+	  }
+    
+    //find Indirect Inheritance 
+     public  int directInheritance(String classname) {
+           
+         ArrayList<String> al = new ArrayList<String>();
+		  int di=0;int indirect =0;
+		  try {
+		  Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
+           
+           BufferedReader breader11 = new BufferedReader(inputString);
+			 // File file = new File("D:\\lectures @SLIIT\\3rd year\\ds\\2020\\DaysPerMonth.java");  
+			  //BufferedReader breader11 = new BufferedReader(new FileReader(file)); 
+			  String line1; String IClass;
+		  //read lines
+			  while ((line1 = breader11.readLine()) != null) {
+				  String[] word = line1.split("\\s+");
+				  for (int x =0; x < word.length ; x++) {
+					  if("class".equals(word[x])) {
+						  if(word.length > 4) {
+							  if(classname.equals(word[x+1])) {
+								  di++;
+                                                                  
+							  }
+						  }
+					  }
+				  } 
+			  } breader11.close();
+		  }catch (Exception e) {
+				  e.printStackTrace();
+			  }
+		
+				  
+		  return di;
+	  }
+     //get values for array
+   public class Inheritance {
+       public int rowNo,direct,indirect,total,CI;
+       public String cName;
+     public Inheritance(String cName,int direct ,int indirect ,int total,int CI){
+        this.cName = cName;
+          this.direct = direct;
+            this.indirect = indirect;
+              this.total = total;
+                this.CI = CI;
+                
+                
+        
+    }
+   }
+    
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         int selectedRow = jTable1.getSelectedRow();
@@ -167,6 +312,131 @@ DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         jTextChange.setText(model.getValueAt(selectedRow,1).toString());        // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       complexityInheritance cs = new complexityInheritance();
+        cs.setVisible(true);
+        // TODO add your handling code here:
+      //  CIcheck(); 
+        ArrayList<Inheritance> ci =CIcheck();
+        DefaultTableModel dtable = (DefaultTableModel)jTable12.getModel();
+         DefaultTableModel dtable1 = (DefaultTableModel)jTable1.getModel();
+   // Object[] row = { "a", "as", "as", "ad" };
+   // dtable.addRow(row);
+   //dtable.setValueAt("assa", 2, 2);
+    int count=0 ;int Ci =0;int totci=0;
+    for(Inheritance str : ci ){
+        int tot= str.direct+str.indirect; ; 
+       
+       
+        //taking values from weight table
+        if (tot ==0){
+           Ci =  Integer.parseInt(dtable1.getValueAt(0, 1).toString());
+       }
+        else if(tot==1){
+           // int a1 =Integer.parseInt(dtable1.getValueAt(1, 1).toString());
+            Ci =  Integer.parseInt(dtable1.getValueAt(1, 1).toString());
+        }else if (tot==2){
+            Ci =  Integer.parseInt(dtable1.getValueAt(2, 1).toString());
+        }else if (tot == 3){
+            Ci = Integer.parseInt(dtable1.getValueAt(3, 1).toString());
+        }
+        else if(tot<=4){
+           Ci = Integer.parseInt(dtable1.getValueAt(4, 1).toString());
+       }
+       
+       totci =   totci +Ci ;
+            System.out.println("cal "+str.cName +" d-"+str.direct+" i-"+str.indirect+" t-"+tot+" "+str.total);
+          //set values to the table
+            dtable.setValueAt(count+1, count, 0);
+           dtable.setValueAt(str.cName, count, 1);
+            dtable.setValueAt(str.direct, count, 2);
+             dtable.setValueAt(str.indirect, count, 3);
+              dtable.setValueAt(tot, count, 4);
+              dtable.setValueAt(Ci, count, 5);
+              
+           count++;
+        }
+    dtable.setValueAt("Total Ci ", count+1, 1);
+    dtable.setValueAt(totci, count+1, 5);
+       
+    
+    
+    
+    
+    }//GEN-LAST:event_jButton2ActionPerformed
+//CIcheck array
+    
+    public  ArrayList<Inheritance> CIcheck(){
+         int Ndi =0;
+          ArrayList <Inheritance> in = new ArrayList<Inheritance>(); 
+          ArrayList <Integer> inde = new ArrayList<Integer>(); 
+         //  Array newa = new Array() {};
+                  int NIndi =0;
+                  int Ci=0;int lineno=0; 
+                  int totCi = 0;int[] num= new int[5];
+         try {      
+    Reader inputString = new StringReader(Dash_UploadSpace.getText().toString());
+           
+           BufferedReader breader = new BufferedReader(inputString);
+           
+           	
+	 //// File file = new File("D:\\lectures @SLIIT\\3rd year\\ds\\2020\\DaysPerMonth.java");  
+	 // BufferedReader breader = new BufferedReader(new FileReader(file)); 
+	  String line1; 
+          
+          //Find classes
+	  while ((line1 = breader.readLine()) != null) {
+		
+		
+		  String cname;
+		  String[] words = line1.split("\\s+");
+		  String[] words1 = line1.split("\\s+");
+		lineno++;
+		  String superclass;
+		  for (int ii = 0; ii < words.length; ii++) {
+			 //System.out.println(words[i]);
+			 if( "class".equals(words[ii])) {
+				cname = words[ii+1];
+				 System.out.println( words[ii+1].toString()+" di ="+directInheritance(words[ii+1].toString()));
+				Ndi = directInheritance(words[ii+1]);
+				 superclass = words[ii+1].toString();
+				 //System.out.println("1      "+superclass);
+				 if(words.length>4) {
+					 if ("extends".equals(words[ii+2])) {
+						NIndi = indeirectInheritance(words[ii+3],words[ii+1]);
+						System.out.println(words[ii+1] +" indi = "+ indeirectInheritance(words[ii+3],words[ii+1]));
+					 }
+				 }else {
+                                     NIndi=0;
+                                     System.out.println(" Indirect"+NIndi);
+                                 }
+                                         Ci =   NIndi +   Ndi;
+                                         System.out.println("Ci ="+Ci);
+                                         totCi = Ci + totCi;
+				 //System.out.println("check "+superclass+" "+checker(superclass));
+				  
+        inde.add(Ndi);
+        inde.add(NIndi);
+        inde.add(Ci);
+        inde.add(Ndi);
+        inde.add(totCi);
+        in.add(new Inheritance(cname,Ndi,NIndi,lineno,Ci));
+			 }
+		  }
+		           
+		  } System.out.println("Tot Ci ="+totCi);
+	 
+	  breader.close();
+		}catch (Exception e) {
+		  e.printStackTrace();
+	  }
+     
+ 
+         
+      
+        
+        return in;
+    }
     /**
      * @param args the command line arguments
      */
@@ -195,7 +465,7 @@ DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
+       
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
